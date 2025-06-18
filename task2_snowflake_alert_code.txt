@@ -1,0 +1,32 @@
+/*
+for example I want to create an alert that executes everytime business_data_table's data_value column
+exceeds 1600. We record that in a timestamp.
+*/
+
+//first we create a table that stores the records history of exceeding
+create table business_financial_data_march_2025_exceeded_history (recorded_timestamp timestamp);
+desc table business_financial_data_march_2025_exceeded_history;
+
+//next we create alert (note: this is a serverless alert. For )
+CREATE OR REPLACE ALERT data_value_alert
+  SCHEDULE = '1 minute'
+  IF( EXISTS(
+    SELECT data_value FROM business_financial_data_march_2025_quarter_csv WHERE data_value>1600))
+  THEN
+    INSERT INTO business_financial_data_march_2025_exceeded_history VALUES (current_timestamp());
+
+//alerts after creation are suspended by default. We need to resume it
+ALTER ALERT data_value_alert RESUME;
+
+//one small mistake to fix; removing and updating null valued columns
+alter table business_financial_data_march_2025_quarter_csv drop column suppressed;
+update business_financial_data_march_2025_quarter_csv set series_title_5 = 'Series5';
+
+//insert new value now and check alert
+insert into business_financial_data_march_2025_quarter_csv values
+('BDCQ.SF1AA2PQ',2021.09,1810.073,'F','Dollars',6,'Business Data Collection - BDC','Industry by financial variable (NZSIOC Level 2)','Sales (operating income)','Forestry and Logging','Current prices','Unadjusted','Series5');
+
+//now let us check alerts
+select * from business_financial_data_march_2025_exceeded_history;
+
+//An alternative solution to this is using triggers

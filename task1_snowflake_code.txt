@@ -1,0 +1,10 @@
+create database codtech_db;create schema codtech_schema;
+
+//file uploaded: business_financial_data_march_2025_quarter_csv.csv
+
+SELECT
+  *
+FROM
+  "CODTECH_DB"."CODTECH_SCHEMA"."BUSINESS_FINANCIAL_DATA_MARCH_2025_QUARTER_CSV"
+LIMIT
+10;

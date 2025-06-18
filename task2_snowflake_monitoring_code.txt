@@ -1,0 +1,15 @@
+//Only users with the ACCOUNTADMIN role can create resource monitors.
+
+/*
+To create a monitor that is similar to the first example, but lets the assigned warehouse exceed the quota by 10% and also includes two notification actions to alert account administrators as the used credits reach the halfway and three-quarters points for the quota:
+*/
+
+USE ROLE ACCOUNTADMIN;
+
+CREATE OR REPLACE RESOURCE MONITOR limit1 WITH CREDIT_QUOTA=1000
+   TRIGGERS ON 50 PERCENT DO NOTIFY
+            ON 75 PERCENT DO NOTIFY
+            ON 100 PERCENT DO SUSPEND
+            ON 110 PERCENT DO SUSPEND_IMMEDIATE;
+
+ALTER WAREHOUSE compute_wh SET RESOURCE_MONITOR = limit1;
