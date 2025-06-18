@@ -1,0 +1,9 @@
+Default Encryption (Automatic by Snowflake)
+
+All data stored in Snowflake tables is automatically encrypted using strong AES-256 encryption.
+
+Data in transit (between client and Snowflake) is protected using TLS.
+
+Hierarchical Key Management: Snowflake uses a multi-level key hierarchy (root keys, account master keys, table master keys, file keys) to manage encryption and key rotation.
+
+You do not need to manually enable encryption for your tables, schemas, or databases—this is always on.

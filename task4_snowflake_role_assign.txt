@@ -1,0 +1,8 @@
+-- Create a custom role
+CREATE ROLE see_role;
+-- Grant privileges
+GRANT SELECT ON TABLE codtech_db.codtech_schema.business_financial_data_march_2025_exceeded_history TO ROLE see_role;
+-- Assign role to a user
+GRANT ROLE see_role TO USER raj1snowflake2alt;
+
+show roles;
